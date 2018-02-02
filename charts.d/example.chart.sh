@@ -1,5 +1,11 @@
 # no need for shebang - this file is loaded from charts.d.plugin
 
+# netdata
+# real-time performance and health monitoring, done right!
+# (C) 2016 Costa Tsaousis <costa@tsaousis.gr>
+# GPL v3+
+#
+
 # if this chart is called X.chart.sh, then all functions and global variables
 # must start with X_
 
@@ -48,8 +54,8 @@ example_get() {
 	else
 		example_count=$((1 + (RANDOM * 5 / 32767) ))
 
-		[ $example_last -gt 16383 -a $example_value4 -gt 16383 ] && example_value4=$((value4 - 16383))
-		[ $example_last -le 16383 -a $example_value4 -lt 16383 ] && example_value4=$((value4 + 16383))
+		[ $example_last -gt 16383 -a $example_value4 -gt 16383 ] && example_value4=$((example_value4 - 16383))
+		[ $example_last -le 16383 -a $example_value4 -lt 16383 ] && example_value4=$((example_value4 + 16383))
 	fi
 	example_last=$example_value4
 
@@ -67,7 +73,7 @@ example_check() {
 	#  - 1 to disable the chart
 
 	# check something
-	[ "${example_magic_number}" != "12345" ] && echo >&2 "example: you have to set example_magic_number=$example_magic_number in example.conf to start example chart." && return 1
+	[ "${example_magic_number}" != "12345" ] && error "manual configuration required: you have to set example_magic_number=$example_magic_number in example.conf to start example chart." && return 1
 
 	# check that we can collect data
 	example_get || return 1
@@ -90,7 +96,7 @@ EOF
 	return 0
 }
 
-# _update is called continiously, to collect the values
+# _update is called continuously, to collect the values
 example_update() {
 	# the first argument to this function is the microseconds since last update
 	# pass this parameter to the BEGIN statement (see bellow).
@@ -108,7 +114,6 @@ BEGIN example.random2 $1
 SET random = $example_value4
 END
 VALUESEOF
-	# echo >&2 "example_count = $example_count value = $value4"
 
 	return 0
 }

@@ -2,7 +2,7 @@
 # Description: exim netdata python.d module
 # Author: Pawel Krupa (paulfantom)
 
-from base import ExecutableService
+from bases.FrameworkServices.ExecutableService import ExecutableService
 
 # default module values (can be overridden per job in `config`)
 # update_every = 2
@@ -14,7 +14,7 @@ ORDER = ['qemails']
 
 CHARTS = {
     'qemails': {
-        'options': [None, "Exim Queue Emails", "emails", 'queue', 'exim.queued.emails', 'line'],
+        'options': [None, "Exim Queue Emails", "emails", 'queue', 'exim.qemails', 'line'],
         'lines': [
             ['emails', None, 'absolute']
         ]}

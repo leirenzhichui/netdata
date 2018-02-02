@@ -1,5 +1,12 @@
 # no need for shebang - this file is loaded from charts.d.plugin
 
+# netdata
+# real-time performance and health monitoring, done right!
+# (C) 2016 Costa Tsaousis <costa@tsaousis.gr>
+# GPL v3+
+#
+# contributed by @paulfantom with PR #511
+
 # if this chart is called X.chart.sh, then all functions and global variables
 # must start with X_
 hddtemp_host="localhost"
@@ -13,7 +20,8 @@ hddtemp_priority=90000
 
 # _check is called once, to find out if this chart should be enabled or not
 hddtemp_check() {
-	nc $hddtemp_host $hddtemp_port &>/dev/null && return 0 || return 1
+    require_cmd nc || return 1
+	run nc $hddtemp_host $hddtemp_port && return 0 || return 1
 }
 
 # _create is called once, to create the charts
@@ -35,7 +43,7 @@ hddtemp_create() {
 	return 0
 }
 
-# _update is called continiously, to collect the values
+# _update is called continuously, to collect the values
 hddtemp_last=0
 hddtemp_count=0
 hddtemp_update() {
@@ -48,7 +56,7 @@ hddtemp_update() {
 	IFS=$OLD_IFS
 
 	# check if there is some data
-	if [ -z "${all[3]}" ]; then 
+	if [ -z "${all[3]}" ]; then
 		return 1
 	fi
 

@@ -5,6 +5,7 @@ dist_noinst_DATA = \
 	debian/copyright \
 	debian/netdata.conf \
 	debian/source/format \
+	debian/control.wheezy \
 	debian/compat \
 	debian/netdata.install \
 	debian/netdata.lintian-overrides \
@@ -16,10 +17,12 @@ dist_noinst_DATA = \
 	debian/netdata.service \
 	debian/changelog \
 	debian/netdata.postrm \
+	rhel/build-netdata-rpm.sh \
 	$(NULL)
 
 dist_noinst_SCRIPTS = \
 	debian/netdata.init \
+	nc-backend.sh \
 	$(NULL)
 
 debian/changelog:
